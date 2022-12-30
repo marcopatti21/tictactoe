@@ -1,0 +1,27 @@
+version: '2'
+
+services:
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_DATABASE=tic_tac_toe_db
+      - MYSQL_PASSWORD=password
+      - MYSQL_USER=user
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+       - "3307:3306"
+  tictactoe:
+    image: docker.io/bitnami/laravel:9
+    ports:
+      - '8000:8000'
+    environment:
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=user
+      - DB_PASSWORD=password
+      - DB_DATABASE=tic_tac_toe_db
+    volumes:
+      - './tic-tac-toe:/app'
+    depends_on:
+      - mysql
